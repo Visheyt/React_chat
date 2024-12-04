@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+}
+.formContainer {
+  width: 100%;
+  max-width: 520px;
+}
+.formContainer form {
+  display: flex;
+  flex-direction: column;
+}
