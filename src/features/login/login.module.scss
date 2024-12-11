@@ -8,9 +8,16 @@
 }
 .formContainer {
   width: 100%;
-  max-width: 520px;
+  max-width: 368px;
 }
 .formContainer form {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+.formContainer form div {
+  width: 100%;
+  max-width: 368px;
 }
