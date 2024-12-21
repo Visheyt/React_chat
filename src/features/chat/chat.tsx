@@ -1,5 +1,8 @@
+import { RootState } from "../../app/store/store";
 import { FC } from "react";
+import { useSelector } from "react-redux";
 
 export const ChatPage: FC = () => {
-  return <div>CHATPAGE</div>;
+  const user = useSelector((state: RootState) => state.userReducer.userName);
+  return <div>{user}</div>;
 };

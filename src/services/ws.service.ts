@@ -1,9 +1,9 @@
 import { WebSocketSubject } from "rxjs/webSocket";
-import { Message, MsgType, UserLogin } from "./client.type";
+import { Message, MsgType, SendMsgType, UserLogin } from "./ws.types";
 import { Observable } from "rxjs";
 
 export class SocketService {
-  private socket: WebSocketSubject<Message<unknown>>;
+  private socket: WebSocketSubject<Message<MsgType | SendMsgType, "response">>;
 
   constructor(url: string) {
     this.socket = new WebSocketSubject(url);
@@ -24,8 +24,10 @@ export class SocketService {
     this.socket.next(message);
   }
 
-  public onMessage<T>(): Observable<Message<T>> {
-    return this.socket.asObservable() as Observable<Message<T>>;
+  public onMessage<T extends MsgType | SendMsgType>() {
+    return this.socket.asObservable() as unknown as Observable<
+      Message<T, "response">
+    >;
   }
 }
 

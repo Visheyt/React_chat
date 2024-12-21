@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { Route, Routes } from "react-router";
-import { Layout } from "./components/layout/layout";
+import { Layout } from "./app/layout/layout";
 import { ChatPage } from "./features/chat/chat";
 import { AboutPage } from "./features/about/about";
 import { LoginPage } from "./features/login/login";
@@ -13,6 +13,7 @@ function App() {
         <Route index element={<ChatPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/chat" element={<ChatPage />} />
       </Route>
     </Routes>
   );

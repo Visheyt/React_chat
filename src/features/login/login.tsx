@@ -2,40 +2,16 @@ import { Button, Form, Input, InputRef } from "antd";
 import styles from "./login.module.scss";
 import FormItem from "antd/es/form/FormItem";
 import { useEffect, useRef } from "react";
-import { socket } from "../../socket/client";
-import { useForm } from "antd/es/form/Form";
 import Link from "antd/es/typography/Link";
-import { Message, UserLoginResponse } from "../../socket/client.type";
+import { FormValues, useLogin } from "./hooks/useLogin";
 
-type FormValues = {
-  login: string;
-  password: string;
-};
 export const LoginPage = () => {
+  const { form, onFinish } = useLogin();
   const loginInputRef = useRef<InputRef | null>(null);
-
-  const [form] = useForm<FormValues>();
-
-  const onFinish = (values: FormValues) => {
-    socket.login(values.login, values.password);
-    form.resetFields();
-  };
 
   useEffect(() => {
     loginInputRef.current?.focus();
   }, []);
-
-  useEffect(() => {
-    const subscription = socket
-      .onMessage<Message<UserLoginResponse>>()
-      .subscribe((msg) => {
-        if (msg.type === "USER_LOGIN") {
-          console.log(msg);
-        }
-      });
-
-    return () => subscription.unsubscribe();
-  });
 
   return (
     <div className={styles.container}>
