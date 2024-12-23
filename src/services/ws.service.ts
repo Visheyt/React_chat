@@ -1,6 +1,7 @@
 import { WebSocketSubject } from "rxjs/webSocket";
-import { Message, MsgType, SendMsgType, UserLogin } from "./ws.types";
+import { Message, MsgType, SendMsgType, ToggleUser } from "./ws.types";
 import { Observable } from "rxjs";
+import { ToggleUserFunc } from "./types/socket.types";
 
 export class SocketService {
   private socket: WebSocketSubject<Message<MsgType | SendMsgType, "response">>;
@@ -16,8 +17,19 @@ export class SocketService {
     });
   }
 
-  public login(login: string, password: string) {
-    const message = createMessage<UserLogin>("USER_LOGIN", {
+  public toggleUser({ login, password, isLogin = false }: ToggleUserFunc) {
+    const message = createMessage<ToggleUser>(
+      isLogin ? "USER_LOGIN" : "USER_LOGOUT",
+      {
+        user: { login, password },
+      }
+    );
+
+    this.socket.next(message);
+  }
+
+  public getUsers(isActive: boolean) {
+    const message = createMessage<ToggleUser>("USER_LOGOUT", {
       user: { login, password },
     });
 
