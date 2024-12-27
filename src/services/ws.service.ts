@@ -3,6 +3,10 @@ import { Message, MsgType, SendMsgType, ToggleUser } from "./ws.types";
 import { Observable } from "rxjs";
 import { ToggleUserFunc } from "./types/socket.types";
 
+function createMessage<T>(type: MsgType, payload: T) {
+  return { id: "", type, payload };
+}
+
 export class SocketService {
   private socket: WebSocketSubject<Message<MsgType | SendMsgType, "response">>;
 
@@ -29,9 +33,10 @@ export class SocketService {
   }
 
   public getUsers(isActive: boolean) {
-    const message = createMessage<ToggleUser>("USER_LOGOUT", {
-      user: { login, password },
-    });
+    const message = createMessage<null>(
+      isActive ? "USER_ACTIVE" : "USER_INACTIVE",
+      null
+    );
 
     this.socket.next(message);
   }
@@ -44,7 +49,3 @@ export class SocketService {
 }
 
 export const socket = new SocketService("http://localhost:4000");
-
-function createMessage<T>(type: MsgType, payload: T) {
-  return { id: "", type, payload };
-}
