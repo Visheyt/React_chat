@@ -2,3 +2,9 @@
   flex: 1 1 auto;
   max-width: 368px;
 }
+.users {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid gray;
+}

@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../../../services/ws.types";
 
+type Users = Record<string, boolean>;
+
 interface UsersState {
-  users: User[];
+  users: Users;
 }
 
 const initialState: UsersState = {
-  users: [],
+  users: {},
 };
 
 const usersSlice = createSlice({
@@ -14,14 +16,15 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     addUsers: (state, action: PayloadAction<User[]>) => {
-      const newUsers = action.payload.filter(
-        (user) =>
-          !state.users.some((existingUser) => existingUser.login === user.login)
-      );
-      state.users.push(...newUsers);
+      action.payload.forEach((user) => {
+        state.users[user.login] = user.isLogined;
+      });
+    },
+    toggleUser: (state, action: PayloadAction<User>) => {
+      state.users[action.payload.login] = action.payload.isLogined;
     },
   },
 });
 
 export const usersReducer = usersSlice.reducer;
-export const { addUsers } = usersSlice.actions;
+export const { addUsers, toggleUser } = usersSlice.actions;

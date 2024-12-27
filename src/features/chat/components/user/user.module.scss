@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  padding: 5px;
+  justify-content: space-between;
+  align-items: center;
+}
+.online {
+  display: flex;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  background-color: green;
+}
+.offline {
+  display: flex;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  background-color: red;
+}

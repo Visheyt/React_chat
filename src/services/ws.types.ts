@@ -41,8 +41,6 @@ export type MsgType =
 export type MsgPayloads = {
   USER_LOGIN: ToggleUser;
   USER_LOGOUT: ToggleUser;
-  USER_EXTERNAL_LOGIN: { user: string; provider: string };
-  USER_EXTERNAL_LOGOUT: { user: string };
   USER_ACTIVE: null;
   USER_INACTIVE: null;
   MSG_SEND: { content: string };
@@ -59,6 +57,8 @@ export type MsgResponsePayloads = {
   USER_LOGOUT: ToggleUserResponse;
   USER_ACTIVE: UsersResponse;
   USER_INACTIVE: UsersResponse;
+  USER_EXTERNAL_LOGIN: ToggleUserResponse;
+  USER_EXTERNAL_LOGOUT: ToggleUserResponse;
 };
 
 export interface Message<
