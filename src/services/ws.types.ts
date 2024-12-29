@@ -18,6 +18,29 @@ export type UsersResponse = {
   users: User[];
 };
 
+export type MsgSend = {
+  message: {
+    to: string;
+    text: string;
+  };
+};
+
+export type MsgSendAnswer = {
+  message: ChatMessage;
+};
+
+export type ChatMessage = {
+  id: string;
+  from: string;
+  to: string;
+  text: string;
+  datetime: number;
+  status: {
+    isDelivered: boolean;
+    isReaded: boolean;
+    isEdited: boolean;
+  };
+};
 export type SendMsgType = Exclude<
   MsgType,
   "USER_EXTERNAL_LOGIN" | "USER_EXTERNAL_LOGOUT" | "MSG_DELIVER" | "ERROR"
@@ -43,31 +66,27 @@ export type MsgPayloads = {
   USER_LOGOUT: ToggleUser;
   USER_ACTIVE: null;
   USER_INACTIVE: null;
-  MSG_SEND: { content: string };
+  MSG_SEND: MsgSend;
   MSG_FROM_USER: { content: string };
-  MSG_DELIVER: { messageId: string };
   MSG_READ: { messageId: string };
   MSG_DELETE: { messageId: string };
   MSG_EDIT: { messageId: string; newContent: string };
-  ERROR: { messageId: string; newContent: string };
 };
 
-export type MsgResponsePayloads = {
+export type MsgAnswerPayloads = {
   USER_LOGIN: ToggleUserResponse;
   USER_LOGOUT: ToggleUserResponse;
   USER_ACTIVE: UsersResponse;
   USER_INACTIVE: UsersResponse;
   USER_EXTERNAL_LOGIN: ToggleUserResponse;
   USER_EXTERNAL_LOGOUT: ToggleUserResponse;
+  MSG_SEND: MsgSendAnswer;
 };
 
-export interface Message<
-  T extends MsgType | SendMsgType,
-  U extends "send" | "response" = "send"
-> {
+export interface Message<U extends "send" | "response" = "send"> {
   id: string | null;
   type: U extends "send" ? SendMsgType : MsgType; // Тип зависит от "send" или "response"
   payload: U extends "send"
-    ? MsgPayloads[T] // Для "send" используем MsgPayloads с типом T
-    : MsgResponsePayloads[T]; // Для "response" используем MsgResponsePayloads с типом T
+    ? MsgPayloads[SendMsgType] // Для "send" используем MsgPayloads с типом T
+    : MsgAnswerPayloads[MsgType]; // Для "response" используем MsgResponsePayloads с типом T
 }

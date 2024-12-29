@@ -3,10 +3,7 @@ import { AppDispatch } from "../../../app/store/store";
 import { useEffect } from "react";
 import { socket } from "../../../services/ws.service";
 import { useSocketSubscription } from "../../../hooks/useSocketSubscription";
-import {
-  addUsers,
-  toggleUser,
-} from "../../../app/store/reducers/users.reducer";
+import { addUsers, toggleUser } from "../../../app/store/reducers/user.reducer";
 
 export const useGetUsers = () => {
   const dispatch = useDispatch<AppDispatch>();

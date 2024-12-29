@@ -1,5 +1,5 @@
 import { WebSocketSubject } from "rxjs/webSocket";
-import { Message, MsgType, SendMsgType, ToggleUser } from "./ws.types";
+import { Message, MsgSend, MsgType, ToggleUser } from "./ws.types";
 import { Observable } from "rxjs";
 import { ToggleUserFunc } from "./types/socket.types";
 
@@ -8,7 +8,7 @@ function createMessage<T>(type: MsgType, payload: T) {
 }
 
 export class SocketService {
-  private socket: WebSocketSubject<Message<MsgType | SendMsgType, "response">>;
+  private socket: WebSocketSubject<Message<"response">>;
 
   constructor(url: string) {
     this.socket = new WebSocketSubject(url);
@@ -41,9 +41,19 @@ export class SocketService {
     this.socket.next(message);
   }
 
-  public onMessage<T extends MsgType | SendMsgType>() {
+  public sendMessage(to: string, text: string) {
+    const message = createMessage<MsgSend>("MSG_SEND", {
+      message: {
+        to,
+        text,
+      },
+    });
+
+    this.socket.next(message);
+  }
+  public onMessage() {
     return this.socket.asObservable() as unknown as Observable<
-      Message<T, "response">
+      Message<"response">
     >;
   }
 }

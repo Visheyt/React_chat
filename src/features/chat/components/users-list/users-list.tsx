@@ -6,7 +6,9 @@ import { User } from "../user/user";
 
 export const UsersList = () => {
   useGetUsers();
-  const { users } = useSelector((state: RootState) => state.usersReducer);
+  const { contacts: users } = useSelector(
+    (state: RootState) => state.userReducer
+  );
 
   const usersArray = Object.entries(users);
 
