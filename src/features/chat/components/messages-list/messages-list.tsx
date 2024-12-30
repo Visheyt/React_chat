@@ -1,8 +1,12 @@
 import styles from "./messages-list.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../app/store/store";
+import { useGetMessages } from "../../hooks/useGetMesssages";
+import { Message } from "../message/message";
 
 export const MessagesList = () => {
+  useGetMessages();
+
   const messages = useSelector(
     (state: RootState) => state.chatReducer.messages
   );
@@ -12,7 +16,7 @@ export const MessagesList = () => {
   return (
     <div className={styles.container}>
       {messagesValues.map((msg) => (
-        <div>{msg.text}</div>
+        <Message {...msg} />
       ))}
     </div>
   );

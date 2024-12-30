@@ -35,8 +35,13 @@ const chatSlice = createSlice({
     addMessage: (state, action: PayloadAction<ChatMessage>) => {
       state.messages[action.payload.id] = action.payload;
     },
+    addMessages: (state, action: PayloadAction<ChatMessage[]>) => {
+      action.payload.forEach((msg) => {
+        state.messages[msg.id] = msg;
+      });
+    },
   },
 });
 
 export const chatReducer = chatSlice.reducer;
-export const { openChat, addMessage } = chatSlice.actions;
+export const { openChat, addMessage, addMessages } = chatSlice.actions;

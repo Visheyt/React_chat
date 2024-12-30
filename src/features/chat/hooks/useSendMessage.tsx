@@ -15,8 +15,8 @@ export const useSendMessage = () => {
     socket.sendMessage(contactName, values.message);
   };
 
-  useSocketSubscription("MSG_SEND", (msg) => {
-    dispatch(addMessage(msg));
+  useSocketSubscription("MSG_SEND", ({ payload: { message } }) => {
+    dispatch(addMessage(message));
   });
 
   return {

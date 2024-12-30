@@ -41,6 +41,21 @@ export type ChatMessage = {
     isEdited: boolean;
   };
 };
+
+export type FetchMessageHistory = {
+  user: {
+    login: string;
+  };
+};
+
+export type MsgDeliver = {
+  message: {
+    id: string;
+    status: {
+      isDelivered: boolean;
+    };
+  };
+};
 export type SendMsgType = Exclude<
   MsgType,
   "USER_EXTERNAL_LOGIN" | "USER_EXTERNAL_LOGOUT" | "MSG_DELIVER" | "ERROR"
@@ -67,7 +82,7 @@ export type MsgPayloads = {
   USER_ACTIVE: null;
   USER_INACTIVE: null;
   MSG_SEND: MsgSend;
-  MSG_FROM_USER: { content: string };
+  MSG_FROM_USER: FetchMessageHistory;
   MSG_READ: { messageId: string };
   MSG_DELETE: { messageId: string };
   MSG_EDIT: { messageId: string; newContent: string };
@@ -81,9 +96,15 @@ export type MsgAnswerPayloads = {
   USER_EXTERNAL_LOGIN: ToggleUserResponse;
   USER_EXTERNAL_LOGOUT: ToggleUserResponse;
   MSG_SEND: MsgSendAnswer;
+  MSG_FROM_USER: { messages: ChatMessage[] };
+  MSG_DELIVER: MsgDeliver;
+  MSG_READ: { messageId: string };
+  MSG_DELETE: { messageId: string };
+  MSG_EDIT: { messageId: string; newContent: string };
+  ERROR: { error: string };
 };
 
-export interface Message<U extends "send" | "response" = "send"> {
+export interface Message<U extends "send" | "response"> {
   id: string | null;
   type: U extends "send" ? SendMsgType : MsgType; // Тип зависит от "send" или "response"
   payload: U extends "send"
