@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChatMessage } from "../../../services/ws.types";
 
 type message = {
   from: string;
@@ -24,15 +25,18 @@ const initialState: ChatState = {
   messages: {},
 };
 
-const userSlice = createSlice({
+const chatSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     openChat: (state, action: PayloadAction<string>) => {
       state.contactName = action.payload;
     },
+    addMessage: (state, action: PayloadAction<ChatMessage>) => {
+      state.messages[action.payload.id] = action.payload;
+    },
   },
 });
 
-export const userReducer = userSlice.reducer;
-export const { openChat } = userSlice.actions;
+export const chatReducer = chatSlice.reducer;
+export const { openChat, addMessage } = chatSlice.actions;

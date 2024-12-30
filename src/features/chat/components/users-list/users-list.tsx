@@ -1,10 +1,12 @@
 import { useGetUsers } from "../../hooks/useGetUsers";
 import styles from "./users-list.module.scss";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../app/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../../app/store/store";
 import { User } from "../user/user";
+import { openChat } from "../../../../app/store/reducers/chat.reducer";
 
 export const UsersList = () => {
+  const dispatch = useDispatch<AppDispatch>();
   useGetUsers();
   const { contacts: users } = useSelector(
     (state: RootState) => state.userReducer
@@ -17,7 +19,12 @@ export const UsersList = () => {
       <div className={styles.users}>
         <h3>Users</h3>
         {usersArray.map(([login, isLogined]) => (
-          <User key={login} login={login} isLogined={isLogined} />
+          <User
+            onClick={() => dispatch(openChat(login))}
+            key={login}
+            login={login}
+            isLogined={isLogined}
+          />
         ))}
       </div>
     </div>

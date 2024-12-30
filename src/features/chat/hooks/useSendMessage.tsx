@@ -1,14 +1,23 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChatFormValues } from "../components/chat-window/chat-window";
-import { RootState } from "../../../app/store/store";
+import { AppDispatch, RootState } from "../../../app/store/store";
 import { socket } from "../../../services/ws.service";
+import { useSocketSubscription } from "../../../hooks/useSocketSubscription";
+import { addMessage } from "../../../app/store/reducers/chat.reducer";
 
 export const useSendMessage = () => {
-  const user = useSelector((state: RootState) => state.userReducer.login);
+  const contactName = useSelector(
+    (state: RootState) => state.chatReducer.contactName
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
   const onFinish = (values: ChatFormValues) => {
-    socket.sendMessage(user, values.message);
+    socket.sendMessage(contactName, values.message);
   };
+
+  useSocketSubscription("MSG_SEND", (msg) => {
+    dispatch(addMessage(msg));
+  });
 
   return {
     onFinish,

@@ -4,24 +4,34 @@ import { useForm } from "antd/es/form/Form";
 import FormItem from "antd/es/form/FormItem";
 import { useEffect, useRef } from "react";
 import { ArrowRightOutlined } from "@ant-design/icons";
+import { useSendMessage } from "../../hooks/useSendMessage";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../app/store/store";
+import { MessagesList } from "../messages-list/messages-list";
 
 export type ChatFormValues = {
   message: string;
 };
 export const ChatWindow = () => {
   const inputRef = useRef<InputRef | null>(null);
+
+  const contactName = useSelector(
+    (state: RootState) => state.chatReducer.contactName
+  );
+
+  const { onFinish } = useSendMessage();
+
   const [form] = useForm();
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  const onFinish = (values: ChatFormValues) => {
-    console.log(values.message);
-  };
+  if (!contactName) return;
 
   return (
     <div className={styles.container}>
+      <MessagesList />
       <Form form={form} layout="horizontal" onFinish={onFinish}>
         <FormItem<ChatFormValues>
           name="message"
