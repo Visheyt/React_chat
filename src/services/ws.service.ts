@@ -2,6 +2,7 @@ import { WebSocketSubject } from "rxjs/webSocket";
 import {
   FetchMessageHistory,
   Message,
+  MsgDelete,
   MsgSend,
   MsgType,
   ToggleUser,
@@ -62,6 +63,16 @@ export class SocketService {
     const message = createMessage<FetchMessageHistory>("MSG_FROM_USER", {
       user: {
         login,
+      },
+    });
+
+    this.socket.next(message);
+  }
+
+  public deleteMessage(id: string) {
+    const message = createMessage<MsgDelete>("MSG_DELETE", {
+      message: {
+        id,
       },
     });
 

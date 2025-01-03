@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChatMessage } from "../../../services/ws.types";
 
 type message = {
+  id: string;
   from: string;
   to: string;
   text: string;
@@ -31,17 +32,28 @@ const chatSlice = createSlice({
   reducers: {
     openChat: (state, action: PayloadAction<string>) => {
       state.contactName = action.payload;
+      state.messages = {};
     },
     addMessage: (state, action: PayloadAction<ChatMessage>) => {
-      state.messages[action.payload.id] = action.payload;
+      if (
+        state.contactName &&
+        (state.contactName === action.payload.from ||
+          state.contactName === action.payload.to)
+      ) {
+        state.messages[action.payload.id] = action.payload;
+      }
     },
     addMessages: (state, action: PayloadAction<ChatMessage[]>) => {
       action.payload.forEach((msg) => {
         state.messages[msg.id] = msg;
       });
     },
+    deleteMessage: (state, action: PayloadAction<string>) => {
+      delete state.messages[action.payload];
+    },
   },
 });
 
 export const chatReducer = chatSlice.reducer;
-export const { openChat, addMessage, addMessages } = chatSlice.actions;
+export const { openChat, addMessage, addMessages, deleteMessage } =
+  chatSlice.actions;

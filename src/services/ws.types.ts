@@ -56,6 +56,18 @@ export type MsgDeliver = {
     };
   };
 };
+
+export type MsgDelete = { message: { id: string } };
+
+export type MsgDeleteAnswer = {
+  message: {
+    id: string;
+    status: {
+      isDeleted: boolean;
+    };
+  };
+};
+
 export type SendMsgType = Exclude<
   MsgType,
   "USER_EXTERNAL_LOGIN" | "USER_EXTERNAL_LOGOUT" | "MSG_DELIVER" | "ERROR"
@@ -84,7 +96,7 @@ export type MsgPayloads = {
   MSG_SEND: MsgSend;
   MSG_FROM_USER: FetchMessageHistory;
   MSG_READ: { messageId: string };
-  MSG_DELETE: { messageId: string };
+  MSG_DELETE: MsgDelete;
   MSG_EDIT: { messageId: string; newContent: string };
 };
 
@@ -99,7 +111,7 @@ export type MsgAnswerPayloads = {
   MSG_FROM_USER: { messages: ChatMessage[] };
   MSG_DELIVER: MsgDeliver;
   MSG_READ: { messageId: string };
-  MSG_DELETE: { messageId: string };
+  MSG_DELETE: MsgDeleteAnswer;
   MSG_EDIT: { messageId: string; newContent: string };
   ERROR: { error: string };
 };

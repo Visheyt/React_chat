@@ -16,7 +16,7 @@ export const MessagesList = () => {
   return (
     <div className={styles.container}>
       {messagesValues.map((msg) => (
-        <Message {...msg} />
+        <Message key={msg.id} {...msg} />
       ))}
     </div>
   );
