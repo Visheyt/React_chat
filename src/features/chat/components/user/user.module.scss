@@ -1,8 +1,15 @@
 .container {
   display: flex;
-  padding: 5px;
+  padding: 3px;
+  padding-inline: 10px;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  transition: background-color 1s;
+  border-radius: 10px;
+}
+.container:hover {
+  background-color: rgba(214, 214, 214, 0.285);
 }
 .online {
   display: flex;

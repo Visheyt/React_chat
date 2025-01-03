@@ -32,8 +32,21 @@ export const ChatWindow = () => {
   return (
     <div className={styles.container}>
       <MessagesList />
-      <Form form={form} layout="horizontal" onFinish={onFinish}>
+      <Form
+        form={form}
+        layout="horizontal"
+        onFinish={onFinish}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          gap: "20px",
+        }}
+      >
         <FormItem<ChatFormValues>
+          style={{
+            width: "100%",
+          }}
           name="message"
           rules={[{ required: true, message: "Please write a message" }]}
         >
