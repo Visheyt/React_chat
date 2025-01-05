@@ -57,6 +57,21 @@ export type MsgDeliver = {
   };
 };
 
+export type MsgRead = {
+  message: {
+    id: string;
+  };
+};
+
+export type MsgReadAnswer = {
+  message: {
+    id: string;
+    status: {
+      isReaded: boolean;
+    };
+  };
+};
+
 export type MsgDelete = { message: { id: string } };
 
 export type MsgDeleteAnswer = {
@@ -95,7 +110,7 @@ export type MsgPayloads = {
   USER_INACTIVE: null;
   MSG_SEND: MsgSend;
   MSG_FROM_USER: FetchMessageHistory;
-  MSG_READ: { messageId: string };
+  MSG_READ: MsgRead;
   MSG_DELETE: MsgDelete;
   MSG_EDIT: { messageId: string; newContent: string };
 };
@@ -110,7 +125,7 @@ export type MsgAnswerPayloads = {
   MSG_SEND: MsgSendAnswer;
   MSG_FROM_USER: { messages: ChatMessage[] };
   MSG_DELIVER: MsgDeliver;
-  MSG_READ: { messageId: string };
+  MSG_READ: MsgReadAnswer;
   MSG_DELETE: MsgDeleteAnswer;
   MSG_EDIT: { messageId: string; newContent: string };
   ERROR: { error: string };

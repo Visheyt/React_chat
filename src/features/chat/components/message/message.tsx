@@ -26,11 +26,10 @@ const getStatus = ({
   if (isEdited) {
     return "Edited";
   }
-  if (isDelivered) {
-    return "Delivered";
+  if (isReaded) {
+    return "Readed";
   }
-
-  return "Readed";
+  return "Delivered";
 };
 export const Message: FC<ChatMessage> = ({
   id,

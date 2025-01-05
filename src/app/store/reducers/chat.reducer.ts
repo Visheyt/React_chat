@@ -62,6 +62,9 @@ const chatSlice = createSlice({
     deleteMessage: (state, action: PayloadAction<string>) => {
       delete state.messages[action.payload];
     },
+    readMessage: (state, action: PayloadAction<string>) => {
+      state.messages[action.payload].status.isReaded = true;
+    },
   },
 });
 
@@ -73,4 +76,5 @@ export const {
   addMessage,
   addMessages,
   deleteMessage,
+  readMessage,
 } = chatSlice.actions;

@@ -41,6 +41,7 @@ export const ChatWindow = () => {
           alignItems: "center",
           width: "100%",
           gap: "20px",
+          paddingInline: "8px",
         }}
       >
         <FormItem<ChatFormValues>

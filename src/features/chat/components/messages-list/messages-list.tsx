@@ -4,8 +4,11 @@ import { RootState } from "../../../../app/store/store";
 import { useGetMessages } from "../../hooks/useGetMesssages";
 import { Message } from "../message/message";
 
+import { useReadMessages } from "../../hooks/useReadMessages";
+
 export const MessagesList = () => {
   useGetMessages();
+  useReadMessages();
 
   const messages = useSelector(
     (state: RootState) => state.chatReducer.messages

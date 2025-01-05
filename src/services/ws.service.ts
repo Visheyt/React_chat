@@ -6,6 +6,7 @@ import {
   FetchMessageHistory,
   Message,
   MsgDelete,
+  MsgRead,
   MsgSend,
   MsgType,
   ToggleUser,
@@ -80,6 +81,15 @@ export class SocketService {
     this.socket.next(message);
   }
 
+  public readMessage(id: string) {
+    const message = createMessage<MsgRead>("MSG_READ", {
+      message: {
+        id,
+      },
+    });
+
+    this.socket.next(message);
+  }
   public onMessage() {
     return this.socket.asObservable() as unknown as Observable<
       Message<"response">
