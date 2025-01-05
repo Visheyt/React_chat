@@ -14,7 +14,7 @@ export const MessagesList = () => {
     (state: RootState) => state.chatReducer.messages
   );
 
-  const messagesValues = Object.values(messages).reverse();
+  const messagesValues = Object.values(messages);
 
   return (
     <div className={styles.container}>
