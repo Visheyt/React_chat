@@ -8,11 +8,9 @@ import { openChat } from "../../../../app/store/reducers/chat.reducer";
 export const UsersList = () => {
   const dispatch = useDispatch<AppDispatch>();
   useGetUsers();
-  const { contacts: users } = useSelector(
-    (state: RootState) => state.userReducer
-  );
+  const { contacts } = useSelector((state: RootState) => state.userReducer);
 
-  const usersArray = Object.entries(users);
+  const usersArray = Object.entries(contacts);
 
   return (
     <>
@@ -20,7 +18,7 @@ export const UsersList = () => {
         <div className={styles.users}>
           {usersArray.map(([login, isLogined]) => (
             <User
-              onClick={() => dispatch(openChat(login))}
+              onClick={() => dispatch(openChat({ login, isLogined }))}
               key={login}
               login={login}
               isLogined={isLogined}

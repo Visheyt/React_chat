@@ -16,13 +16,15 @@ type message = {
 
 type ChatMessageObj = Record<string, message>;
 
+type Contact = { login: string; isLogined: boolean };
+
 type ChatState = {
-  contactName: string;
+  contact: Contact;
   messages: ChatMessageObj;
 };
 
 const initialState: ChatState = {
-  contactName: "",
+  contact: { login: "", isLogined: false },
   messages: {},
 };
 
@@ -30,15 +32,24 @@ const chatSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    openChat: (state, action: PayloadAction<string>) => {
-      state.contactName = action.payload;
+    openChat: (state, action: PayloadAction<Contact>) => {
+      if (state.contact.login !== action.payload.login) {
+        state.contact = action.payload;
+        state.messages = {};
+      }
+    },
+    closeChat: (state) => {
+      state.contact = { login: "", isLogined: false };
       state.messages = {};
+    },
+    toggleContact: (state, action: PayloadAction<boolean>) => {
+      state.contact.isLogined = action.payload;
     },
     addMessage: (state, action: PayloadAction<ChatMessage>) => {
       if (
-        state.contactName &&
-        (state.contactName === action.payload.from ||
-          state.contactName === action.payload.to)
+        state.contact.login &&
+        (state.contact.login === action.payload.from ||
+          state.contact.login === action.payload.to)
       ) {
         state.messages[action.payload.id] = action.payload;
       }
@@ -55,5 +66,11 @@ const chatSlice = createSlice({
 });
 
 export const chatReducer = chatSlice.reducer;
-export const { openChat, addMessage, addMessages, deleteMessage } =
-  chatSlice.actions;
+export const {
+  openChat,
+  closeChat,
+  toggleContact,
+  addMessage,
+  addMessages,
+  deleteMessage,
+} = chatSlice.actions;

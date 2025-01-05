@@ -9,15 +9,13 @@ import {
 } from "../../../app/store/reducers/chat.reducer";
 
 export const useGetMessages = () => {
-  const contactName = useSelector(
-    (state: RootState) => state.chatReducer.contactName
-  );
+  const contact = useSelector((state: RootState) => state.chatReducer.contact);
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    socket.fetchMessageHistory(contactName);
-  }, [contactName]);
+    socket.fetchMessageHistory(contact.login);
+  }, [contact.login]);
 
   useSocketSubscription("MSG_FROM_USER", ({ payload: { messages } }) => {
     dispatch(addMessages(messages));
