@@ -7,7 +7,7 @@ import { openChat } from "../../../../app/store/reducers/chat.reducer";
 
 export const UsersList = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { contextHolder } = useGetUsers();
+  useGetUsers();
   const { contacts: users } = useSelector(
     (state: RootState) => state.userReducer
   );
@@ -16,7 +16,6 @@ export const UsersList = () => {
 
   return (
     <>
-      {contextHolder}
       <div className={styles.container}>
         <div className={styles.users}>
           {usersArray.map(([login, isLogined]) => (

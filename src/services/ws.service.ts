@@ -1,4 +1,7 @@
 import { WebSocketSubject } from "rxjs/webSocket";
+
+import { Observable } from "rxjs";
+import { ToggleUserFunc } from "./types/socket.types";
 import {
   FetchMessageHistory,
   Message,
@@ -7,8 +10,6 @@ import {
   MsgType,
   ToggleUser,
 } from "./ws.types";
-import { Observable } from "rxjs";
-import { ToggleUserFunc } from "./types/socket.types";
 
 function createMessage<T>(type: MsgType, payload: T) {
   return { id: "", type, payload };
