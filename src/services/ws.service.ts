@@ -6,6 +6,7 @@ import {
   FetchMessageHistory,
   Message,
   MsgDelete,
+  MsgEdit,
   MsgRead,
   MsgSend,
   MsgType,
@@ -90,6 +91,18 @@ export class SocketService {
 
     this.socket.next(message);
   }
+
+  public editMessage(id: string, text: string) {
+    const message = createMessage<MsgEdit>("MSG_EDIT", {
+      message: {
+        id,
+        text,
+      },
+    });
+
+    this.socket.next(message);
+  }
+
   public onMessage() {
     return this.socket.asObservable() as unknown as Observable<
       Message<"response">

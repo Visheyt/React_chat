@@ -21,11 +21,21 @@ type Contact = { login: string; isLogined: boolean };
 type ChatState = {
   contact: Contact;
   messages: ChatMessageObj;
+  form: {
+    isEditForm: boolean;
+    text: string;
+    msgId: string;
+  };
 };
 
 const initialState: ChatState = {
   contact: { login: "", isLogined: false },
   messages: {},
+  form: {
+    isEditForm: false,
+    text: "",
+    msgId: "",
+  },
 };
 
 const chatSlice = createSlice({
@@ -65,6 +75,28 @@ const chatSlice = createSlice({
     readMessage: (state, action: PayloadAction<string>) => {
       state.messages[action.payload].status.isReaded = true;
     },
+    editMessage: (
+      state,
+      action: PayloadAction<{ id: string; text: string }>
+    ) => {
+      state.messages[action.payload.id].text = action.payload.text;
+      state.messages[action.payload.id].status.isEdited = true;
+    },
+    openEditForm: (
+      state,
+      action: PayloadAction<{ text: string; id: string }>
+    ) => {
+      state.form.isEditForm = true;
+      state.form.text = action.payload.text;
+      state.form.msgId = action.payload.id;
+    },
+    closeEditForm: (state) => {
+      state.form = {
+        isEditForm: false,
+        text: "",
+        msgId: "",
+      };
+    },
   },
 });
 
@@ -77,4 +109,7 @@ export const {
   addMessages,
   deleteMessage,
   readMessage,
+  editMessage,
+  openEditForm,
+  closeEditForm,
 } = chatSlice.actions;

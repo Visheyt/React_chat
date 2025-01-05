@@ -4,7 +4,7 @@ import { logout } from "../app/store/reducers/user.reducer";
 import { useNavigate } from "react-router";
 import { socket } from "../services/ws.service";
 import { useSocketSubscription } from "./useSocketSubscription";
-import { closeChat } from "../app/store/reducers/chat.reducer";
+import { closeChat, closeEditForm } from "../app/store/reducers/chat.reducer";
 
 export const useLogout = () => {
   const { login, password } = useSelector(
@@ -22,6 +22,7 @@ export const useLogout = () => {
     dispatch(logout());
     navigate("/login");
     dispatch(closeChat());
+    dispatch(closeEditForm());
   });
 
   return {

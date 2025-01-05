@@ -4,8 +4,9 @@ import { ChatMessage } from "../../../../services/ws.types";
 import Card from "antd/es/card/Card";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../app/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../../app/store/store";
+import { openEditForm } from "../../../../app/store/reducers/chat.reducer";
 
 const formatTime = (date: Date): string => {
   const hours = String(date.getHours()).padStart(2, "0");
@@ -39,7 +40,10 @@ export const Message: FC<ChatMessage> = ({
   from,
   status,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const onDelete = useDeleteMessage();
+
   const login = useSelector((state: RootState) => state.userReducer.login);
 
   return (
@@ -53,7 +57,10 @@ export const Message: FC<ChatMessage> = ({
         actions={
           login === from
             ? [
-                <EditOutlined key="edit" />,
+                <EditOutlined
+                  key="edit"
+                  onClick={() => dispatch(openEditForm({ text, id }))}
+                />,
                 <DeleteOutlined onClick={() => onDelete(id)} key="delete" />,
               ]
             : []

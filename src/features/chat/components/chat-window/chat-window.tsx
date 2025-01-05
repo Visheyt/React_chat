@@ -18,6 +18,8 @@ export const ChatWindow = () => {
 
   const contact = useSelector((state: RootState) => state.chatReducer.contact);
 
+  const text = useSelector((state: RootState) => state.chatReducer.form.text);
+
   const [form] = useForm();
 
   const { onFinish } = useSendMessage(form);
@@ -25,6 +27,12 @@ export const ChatWindow = () => {
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (text) {
+      form.setFieldValue("message", text);
+    }
+  }, [form, text]);
 
   if (!contact.login) return;
 

@@ -83,6 +83,22 @@ export type MsgDeleteAnswer = {
   };
 };
 
+export type MsgEdit = {
+  message: {
+    id: string;
+    text: string;
+  };
+};
+
+export type MsgEditAnswer = {
+  message: {
+    id: string;
+    text: string;
+    status: {
+      isEdited: boolean;
+    };
+  };
+};
 export type SendMsgType = Exclude<
   MsgType,
   "USER_EXTERNAL_LOGIN" | "USER_EXTERNAL_LOGOUT" | "MSG_DELIVER" | "ERROR"
@@ -112,7 +128,7 @@ export type MsgPayloads = {
   MSG_FROM_USER: FetchMessageHistory;
   MSG_READ: MsgRead;
   MSG_DELETE: MsgDelete;
-  MSG_EDIT: { messageId: string; newContent: string };
+  MSG_EDIT: MsgEdit;
 };
 
 export type MsgAnswerPayloads = {
@@ -127,7 +143,7 @@ export type MsgAnswerPayloads = {
   MSG_DELIVER: MsgDeliver;
   MSG_READ: MsgReadAnswer;
   MSG_DELETE: MsgDeleteAnswer;
-  MSG_EDIT: { messageId: string; newContent: string };
+  MSG_EDIT: MsgEditAnswer;
   ERROR: { error: string };
 };
 
