@@ -1,7 +1,7 @@
 import { WebSocketSubject } from "rxjs/webSocket";
 
-import { Observable } from "rxjs";
-import { ToggleUserFunc } from "./types/socket.types";
+import { BehaviorSubject, Observable } from "rxjs";
+
 import {
   FetchMessageHistory,
   Message,
@@ -11,6 +11,7 @@ import {
   MsgSend,
   MsgType,
   ToggleUser,
+  ToggleUserFunc,
 } from "./ws.types";
 
 function createMessage<T>(type: MsgType, payload: T) {
@@ -20,13 +21,21 @@ function createMessage<T>(type: MsgType, payload: T) {
 export class SocketService {
   private socket: WebSocketSubject<Message<"response" | "send">>;
 
+  private errorSubject = new BehaviorSubject<string | null>(null);
+
   constructor(url: string) {
     this.socket = new WebSocketSubject(url);
     this.socket.subscribe({
       next: (msg) => {
+        this.errorSubject.next(null);
         if (msg.type === "ERROR") {
-          console.error(msg.payload);
+          console.log(msg.payload);
         }
+      },
+      error: () => {
+        this.errorSubject.next(
+          "Websocket server doesn`t work please open it and reload page"
+        );
       },
     });
   }
@@ -101,6 +110,10 @@ export class SocketService {
     });
 
     this.socket.next(message);
+  }
+
+  public getErrorMessage() {
+    return this.errorSubject.asObservable();
   }
 
   public onMessage() {

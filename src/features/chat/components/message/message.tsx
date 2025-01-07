@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./message.module.scss";
 import { ChatMessage } from "../../../../services/ws.types";
-import Card from "antd/es/card/Card";
+
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,11 +16,10 @@ const formatTime = (date: Date): string => {
 };
 
 const getStatus = ({
-  isDelivered,
   isEdited,
   isReaded,
 }: {
-  isDelivered: boolean;
+  isDelivered?: boolean;
   isReaded: boolean;
   isEdited: boolean;
 }) => {
@@ -28,9 +27,9 @@ const getStatus = ({
     return "Edited";
   }
   if (isReaded) {
-    return "Readed";
+    return "✓✓";
   }
-  return "Delivered";
+  return "✓";
 };
 export const Message: FC<ChatMessage> = ({
   id,
@@ -48,32 +47,37 @@ export const Message: FC<ChatMessage> = ({
 
   return (
     <>
-      <Card
-        style={{
-          width: "100%",
-          maxWidth: 350,
-          alignSelf: `${login === to ? "flex-start" : "flex-end"}`,
-        }}
-        actions={
-          login === from
-            ? [
-                <EditOutlined
-                  key="edit"
-                  onClick={() => dispatch(openEditForm({ text, id }))}
-                />,
-                <DeleteOutlined onClick={() => onDelete(id)} key="delete" />,
-              ]
-            : []
-        }
+      <div
+        className={`${styles.container} ${
+          to === login ? styles.incoming : styles.outcoming
+        }`}
       >
+        <header>
+          <span className={styles.date}>{formatTime(new Date(datetime))}</span>
+          {login === from ? (
+            <span className={styles.status}>{getStatus(status)}</span>
+          ) : (
+            ""
+          )}
+        </header>
         <p>{text}</p>
-        <span className={styles.date}>{formatTime(new Date(datetime))}</span>
-        {login === from ? (
-          <span className={styles.status}>{getStatus(status)}</span>
-        ) : (
-          ""
-        )}
-      </Card>
+        <footer className={styles.footer}>
+          <EditOutlined
+            key="edit"
+            onClick={() => dispatch(openEditForm({ text, id }))}
+            style={{
+              color: "gray",
+            }}
+          />
+          <DeleteOutlined
+            onClick={() => onDelete(id)}
+            key="delete"
+            style={{
+              color: "gray",
+            }}
+          />
+        </footer>
+      </div>
     </>
   );
 };
