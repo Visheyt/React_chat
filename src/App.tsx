@@ -8,7 +8,24 @@ import { NotificationProvider } from "./app/context/notification.context";
 import { useEffect, useState } from "react";
 import { socket } from "./services/ws.service";
 import { Modal } from "antd";
+import { useSelector } from "react-redux";
+import { RootState } from "./app/store/store";
+import { Navigate } from "react-router";
 
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+}: ProtectedRouteProps) => {
+  const login = useSelector((state: RootState) => state.userReducer.login);
+  if (!login) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
 function App() {
   const [error, setError] = useState<string | null>();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,7 +56,14 @@ function App() {
               <Route index element={<ChatPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/chat" element={<ChatPage />} />
+              <Route
+                path="/chat"
+                element={
+                  <ProtectedRoute>
+                    <ChatPage />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
           </Routes>
         )}
