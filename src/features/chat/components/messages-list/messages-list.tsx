@@ -10,6 +10,8 @@ export const MessagesList = () => {
   useGetMessages();
   useReadMessages();
 
+  const contact = useSelector((state: RootState) => state.chatReducer.contact);
+
   const messages = useSelector(
     (state: RootState) => state.chatReducer.messages
   );
@@ -17,7 +19,9 @@ export const MessagesList = () => {
   const messagesValues = Object.values(messages);
 
   return (
-    <div className={styles.container}>
+    <div
+      className={`${styles.container} ${contact ? styles.show : styles.hide}`}
+    >
       {messagesValues.map((msg) => (
         <Message key={msg.id} {...msg} />
       ))}

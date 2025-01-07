@@ -7,30 +7,9 @@ import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../app/store/store";
 import { openEditForm } from "../../../../app/store/reducers/chat.reducer";
+import { formatTime } from "../../utils/formatTime";
+import { getStatus } from "../../utils/getStatus";
 
-const formatTime = (date: Date): string => {
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${hours}:${minutes}`;
-};
-
-const getStatus = ({
-  isEdited,
-  isReaded,
-}: {
-  isDelivered?: boolean;
-  isReaded: boolean;
-  isEdited: boolean;
-}) => {
-  if (isEdited) {
-    return "Edited";
-  }
-  if (isReaded) {
-    return "✓✓";
-  }
-  return "✓";
-};
 export const Message: FC<ChatMessage> = ({
   id,
   to,

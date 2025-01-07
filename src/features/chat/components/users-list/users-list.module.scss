@@ -13,3 +13,28 @@
   flex-direction: column;
   gap: 5px;
 }
+
+@media (max-width: 685px) {
+  .container {
+    max-width: 100%;
+    transform: translateX(-100%); /* Исходная позиция за пределами экрана */
+    animation: slide-in 0.5s forwards; /* Анимация */
+  }
+  .hide {
+    display: none;
+  }
+  .show {
+    display: flex;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%); /* Стартовая позиция */
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0); /* Финальная позиция */
+    opacity: 1;
+  }
+}

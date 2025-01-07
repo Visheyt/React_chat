@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputRef } from "antd";
+import { Button, Empty, Form, Input, InputRef } from "antd";
 import styles from "./chat-window.module.scss";
 import { useForm } from "antd/es/form/Form";
 import FormItem from "antd/es/form/FormItem";
@@ -10,9 +10,12 @@ import { RootState } from "../../../../app/store/store";
 import { MessagesList } from "../messages-list/messages-list";
 import { ChatHeader } from "../chat-header/chat-header";
 
+const EMPTY_CHAT_DESCRIPTION = "Select a chat to start messaging";
+
 export type ChatFormValues = {
   message: string;
 };
+
 export const ChatWindow = () => {
   const inputRef = useRef<InputRef | null>(null);
 
@@ -34,7 +37,12 @@ export const ChatWindow = () => {
     }
   }, [form, text]);
 
-  if (!contact.login) return;
+  if (!contact.login)
+    return (
+      <div className={styles.empty}>
+        <Empty description={EMPTY_CHAT_DESCRIPTION}></Empty>
+      </div>
+    );
 
   return (
     <div className={styles.container}>

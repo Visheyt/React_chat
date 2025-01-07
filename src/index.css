@@ -6,8 +6,17 @@
 }
 body {
   margin: 0px;
-  padding: 0px;
+  padding: 10px;
+  background: -webkit-linear-gradient(
+    90deg,
+    #4b3126,
+    #a6755b,
+    #e8be89,
+    #d1d0b5
+  );
+  background: linear-gradient(90deg, #4b3126, #a6755b, #e8be89, #d1d0b5);
 }
+
 a {
   text-decoration: inherit;
 }

@@ -9,12 +9,17 @@ export const UsersList = () => {
   const dispatch = useDispatch<AppDispatch>();
   useGetUsers();
   const { contacts } = useSelector((state: RootState) => state.userReducer);
+  const login = useSelector(
+    (state: RootState) => state.chatReducer.contact.login
+  );
 
   const usersArray = Object.entries(contacts);
 
   return (
     <>
-      <div className={styles.container}>
+      <div
+        className={`${styles.container} ${login ? styles.hide : styles.show}`}
+      >
         <div className={styles.users}>
           {usersArray.map(([login, isLogined]) => (
             <User
