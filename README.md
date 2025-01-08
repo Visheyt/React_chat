@@ -27,8 +27,8 @@
 - Follow the deploy link [Chat](https://visheyt-react-chat.netlify.app/)
 
 ## Demo
-![image](https://github.com/user-attachments/assets/07162d2d-4ae9-46a2-8644-6ca5a50511b0)
-![image](https://github.com/user-attachments/assets/f2c13931-ae10-43b6-a1b5-e9cb1d114ea8)
+![image](https://github.com/user-attachments/assets/f6f28e3b-c084-41d1-ad04-b5f5bd933a1a)
+![image](https://github.com/user-attachments/assets/bf875e20-5d18-4213-8be5-901438f9e2f9)
 ![image](https://github.com/user-attachments/assets/3698eab9-ee64-4ff2-a261-acb3ea46dbd9)
 
 
