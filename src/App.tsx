@@ -87,7 +87,7 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<ChatPage />} />
+              <Route index element={<LoginPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route
