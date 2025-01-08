@@ -7,12 +7,14 @@ interface UserState {
   login: string;
   password: string;
   contacts: Users;
+  error: string;
 }
 
 const initialState: UserState = {
   login: "",
   password: "",
   contacts: {},
+  error: "",
 };
 
 const userSlice = createSlice({
@@ -40,8 +42,12 @@ const userSlice = createSlice({
     toggleUser: (state, action: PayloadAction<User>) => {
       state.contacts[action.payload.login] = action.payload.isLogined;
     },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
   },
 });
 
 export const userReducer = userSlice.reducer;
-export const { login, logout, addUsers, toggleUser } = userSlice.actions;
+export const { login, logout, addUsers, toggleUser, setError } =
+  userSlice.actions;

@@ -7,10 +7,11 @@ import { LoginPage } from "./features/login/login";
 import { NotificationProvider } from "./app/context/notification.context";
 import { useEffect, useState } from "react";
 import { socket } from "./services/ws.service";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { useSelector } from "react-redux";
 import { RootState } from "./app/store/store";
 import { Navigate } from "react-router";
+import { useSocketSubscription } from "./hooks/useSocketSubscription";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -26,9 +27,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   return children;
 };
+
 function App() {
   const [error, setError] = useState<string | null>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorModalOpen, setModalOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const subscription = socket.getErrorMessage().subscribe((errorMessage) => {
@@ -43,11 +47,41 @@ function App() {
     };
   }, []);
 
+  useSocketSubscription("ERROR", ({ payload: { error } }) => {
+    setErrorMsg(
+      `${error.slice(0, 1).toUpperCase() + error.slice(1, error.length)}`
+    );
+    setModalOpen(true);
+  });
+
+  const onClose = () => {
+    setModalOpen(false);
+  };
+
   return (
     <>
       <NotificationProvider>
+        {errorMsg ? (
+          <Modal
+            title={errorMsg}
+            open={isErrorModalOpen}
+            closable={false}
+            footer={[
+              <Button key="submit" type="primary" onClick={onClose}>
+                Ok
+              </Button>,
+            ]}
+          />
+        ) : (
+          ""
+        )}
         {isModalOpen ? (
-          <Modal title="Something goes wrong" open={isModalOpen} footer={null}>
+          <Modal
+            title="Something goes wrong"
+            open={isModalOpen}
+            closable={false}
+            footer={null}
+          >
             <p>{error}</p>
           </Modal>
         ) : (

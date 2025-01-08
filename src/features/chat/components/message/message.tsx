@@ -45,14 +45,14 @@ export const Message: FC<ChatMessage> = ({
             key="edit"
             onClick={() => dispatch(openEditForm({ text, id }))}
             style={{
-              color: "gray",
+              color: "rgb(186, 186, 186)",
             }}
           />
           <DeleteOutlined
             onClick={() => onDelete(id)}
             key="delete"
             style={{
-              color: "gray",
+              color: "rgb(186, 186, 186)",
             }}
           />
         </footer>
